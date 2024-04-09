@@ -52,4 +52,11 @@ Para configurar la conexión, asegúrese de proporcionar la información correct
 ### MyBatis
 MyBatis es utilizado para mapear los objetos Java a las consultas SQL correspondientes. Se definen mapeos en archivos XML que especifican cómo los objetos Java se traducen a tablas y columnas en la base de datos.
 
+## Swagger
+Se utiliza Swagger para realizar una documentación de la API, para acceder a ella, debemos lanzar la aplicación y mediante el siguiente enlace podremos ver documentación de los controladores y de los modelos:
 
+<div align="center">
+
+[http://localhost:8080/swagger-ui/index.html#/](http://localhost:8080/swagger-ui/index.html#/)
+
+</div>
