@@ -33,13 +33,6 @@ public class CompanyController {
 
     }
 
-    /**
-    @GetMapping("/all")
-    public ResponseEntity<?> getAllEmployees() {
-        List<Employee> employees = new ArrayList<>();
-        employees = this.avgSalaryService.getAllEmployees();
-        return ResponseEntity.ok(employees);
 
-    }*/
 
 }

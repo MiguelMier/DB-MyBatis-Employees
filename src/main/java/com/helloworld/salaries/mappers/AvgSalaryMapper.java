@@ -1,4 +1,4 @@
-package com.helloworld.salaries.mybatis;
+package com.helloworld.salaries.mappers;
 
 import com.helloworld.salaries.model.Employee;
 import org.apache.ibatis.annotations.Mapper;
