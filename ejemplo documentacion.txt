@@ -1,0 +1,173 @@
+---------------- CONTROLADOR ----------------
+
+@GetMapping("/dishes/{id}")
+    @Operation(
+            summary = "Obtención de plato por id",
+            description = "Según el id recibido en la url se devolverá el plato correspondiente"
+    )
+    @ApiResponses(
+            value = {@ApiResponse(
+                    responseCode = "200",
+                    description = "successful operation",
+                    content = @Content(
+                            mediaType = "application/json",
+                            schema = @Schema(
+                                    implementation = Plato.class
+                            )
+                    )
+            ), @ApiResponse(
+                    responseCode = "404",
+                    description = "No existe un producto asociado con ese id",
+                    content = @Content(
+                            mediaType = "text/plain",
+                            schema = @Schema(
+                                    implementation = String.class
+                            )
+                    )
+            )}
+    )
+    public Plato getDish(@Parameter(
+            required = true,
+            description = "Id del producto que se quiere recuperar",
+            name = "id",
+            example = "1"
+    ) @PathVariable(
+            value = "id",
+            required = true
+    ) Integer id) {
+        Optional<Plato> plato = dishService.getSpecificDish(id);
+        if (plato.isPresent()) {
+            return plato.get();
+        } else {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Dish not found");
+        }
+    }
+
+---------------- CLASE ----------------
+
+@Tag(
+        name = "Gestor de Platos",
+        description = "Este controlador se encarga de gestionar los platos que luego se vincularan con los restaurantes"
+)
+
+
+---------------- MODELO ----------------
+
+package com.bootcamp.sice.restaurante.model;
+
+import com.bootcamp.sice.restaurante.daos.model.Dish;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.*;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+
+@Data
+@AllArgsConstructor
+@Schema(
+        name = "Plato",
+        description = "Objeto que representa un plato del restaurante con la información básica"
+)
+public class Plato {
+    @Schema(
+            description = "Identificador del plato",
+            example = "1"
+    )
+    @JsonProperty(value = "id")
+    @NotNull(message = "Campo id obligatorio")
+    @Min(
+            value = 0,
+            message = "Campo id no válido"
+    )
+    @Valid
+    Integer id;
+
+    @Schema(
+            description = "Nombre del plato",
+            example = "Pasta con tomate"
+    )
+    @JsonProperty(value = "name")
+    @Size(
+            max = 50,
+            message = "Campo name muy largo"
+    )
+    @Pattern(
+            regexp = "^[a-zA-Z]+$\n",
+            message = "Campo nombre no válido"
+    )
+    @Valid
+    @NotNull
+    String name;
+
+    @Schema(
+            description = "Valor que representa lo sano que es el plato",
+            example = "1000"
+    )
+    @JsonProperty(value = "healthyLevel")
+    @Max(value = 1000)
+    @Positive
+    @NotNull(message = "Campo healthyLevel obligatorio")
+    @Valid
+    Integer healthyLevel;
+
+    @Schema(
+            description = "Valor que representa lo sabroso que es el plato",
+            example = "500"
+    )
+    @JsonProperty(value = "tastyLevel")
+    @Max(value = 500)
+    @Positive
+    @NotNull(message = "Campo tastyLevel obligatorio")
+    @Valid
+    Integer tastyLevel;
+
+    @Schema(
+            description = "Precio del plato",
+            example = "8.39"
+    )
+    @JsonProperty(value = "price")
+    @Digits(
+            integer = 2,
+            fraction = 0,
+            message = "Solo valores enteros"
+    )
+    @DecimalMin(
+            value = "0.01",
+            inclusive = true
+    )
+    @DecimalMax(
+            value = "100.00",
+            inclusive = true
+    )
+    @NotNull
+    Double price;
+
+    @Schema(
+            description = "Categoría a la que pertenece el producto",
+            allowableValues = {"1", "2", "3"},
+            example = "1",
+            $comment = "1 - Primer plato, 2 - Segundo Plato, 3 - Postre"
+    )
+    @JsonProperty(value = "category")
+    @Pattern(
+            regexp = "^[a-zA-Z]$\n",
+            message = "Campo categoria no válido"
+    )
+    @Size(
+            max = 50,
+            message = "Campo category no valido"
+    )
+    @NotNull(message = "Campo categoria obligatorio")
+    @Valid
+    char category;
+
+    public static Plato from(Dish dish) {
+        return new Plato(dish.getId(),
+                dish.getNombre(),
+                dish.getNivelSaludable(),
+                dish.getNivelRico(),
+                dish.getPrecio().doubleValue(),
+                dish.getCategoria());
+    }
+}
