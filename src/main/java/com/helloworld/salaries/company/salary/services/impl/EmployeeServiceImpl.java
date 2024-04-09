@@ -30,4 +30,9 @@ public class EmployeeServiceImpl implements EmployeeService {
     public int updateMonthlySalary(String employeeCode, int year, int month, double salary) {
         return 0;
     }
+
+    @Override
+    public List<Double> createSalaryList(String employeeCode, int year) {
+        return employeeMapper.createSalaryList(employeeCode,year);
+    }
 }

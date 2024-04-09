@@ -10,4 +10,6 @@ public interface EmployeeService {
     List<Employee> searchEmployees(String name, String employeeCode, int pageSize, int offset);
 
     int updateMonthlySalary(String employeeCode, int year, int month, double salary);
+
+    List<Double> createSalaryList(String employeeCode, int year);
 }

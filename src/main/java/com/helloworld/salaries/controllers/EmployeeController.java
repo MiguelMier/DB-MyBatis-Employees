@@ -9,6 +9,7 @@ import io.swagger.v3.oas.annotations.enums.ParameterIn;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -17,6 +18,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/employee")
+@Tag(name="EmployeeController", description = "Endpoints relacionados con empleados (/employee)")
 public class EmployeeController {
 
     private final EmployeeService employeeService;
@@ -26,9 +28,8 @@ public class EmployeeController {
     }
 
 
-    @GetMapping("/employee/{employeeCode}/salary/{year}")
+    @GetMapping("/{employeeCode}/salary/{year}")
     @Operation(summary = "Recupera un lista (12 valores) con el salario mensual del empleado indicado",
-            tags = {"employee"},
             responses = {
                     @ApiResponse(
                             responseCode = "200",
@@ -52,9 +53,8 @@ public class EmployeeController {
         return ResponseEntity.ok(salaries);
     }
 
-    @PostMapping("/employee/{employeeCode}/salary/{year}")
+    @PostMapping("/{employeeCode}/salary/{year}")
     @Operation(summary = "Crea, si no existe, la lista de salario de los 12 meses para un empleado un año concreto",
-            tags = {"employee"},
             responses = {
                     @ApiResponse(
                             responseCode = "200",
@@ -74,13 +74,12 @@ public class EmployeeController {
             allowEmptyValue = false
     )
     public ResponseEntity<List<Double>> createSalaryList(@PathVariable String employeeCode, @PathVariable int year) {
-        //List<Double> salaries = employeeService.createSalaryList(employeeCode, year);
+        List<Double> salaries = employeeService.createSalaryList(employeeCode, year);
         return ResponseEntity.ok(null);
     }
 
-    @GetMapping("/employee")
+    @GetMapping("")
     @Operation(summary = "Realiza una búsqueda paginada de empleados",
-            tags = {"employee"},
             responses = {
                     @ApiResponse(
                             responseCode = "200",
@@ -118,7 +117,7 @@ public class EmployeeController {
         return ResponseEntity.ok(employees);
     }
 
-    @PutMapping("/employee/{employeeCode}/salary/{year}/month/{month}")
+    @PutMapping("/{employeeCode}/salary/{year}/month/{month}")
     @Operation(summary = "Actualiza el salario mensual de un empleado en un mes concreto",
             description = "Este endpoint permite actualizar el salario mensual de un empleado para un año y mes específicos.")
     public ResponseEntity<?> updateMonthlySalary(

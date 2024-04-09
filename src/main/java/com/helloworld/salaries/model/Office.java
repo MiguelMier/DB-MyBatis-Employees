@@ -31,17 +31,23 @@ public class Office {
     @Max(value = 99999)
     private String postalCode;
 
-    @Schema(description = "Código del país donde se ubica la oficina")
+    @Schema(description = "Código del país donde se ubica la oficina",
+            allowableValues = {"ES", "MX", "GU"})
     @NotNull(message = "El código del país de la oficina no puede ser null")
     private String countryCode;
 
-    @Schema(description = "Indica si la oficina es Central (1) o si no (0)")
-    @NotNull(message = "Si no es headquarter, debe de ser 0, no null")
-    @Min(value = 0)
-    @Max(value = 1)
+    @Schema(
+            description = "Indica si la oficina es Central o no",
+            allowableValues = {"0", "1"},
+            example = "1",
+            $comment = "1 - Oficina central, 0 - Oficina regional común"
+    )
     private int headquarter;
 
-    @Schema(description = "Continente donde se ubica la oficina")
+    @Schema(description = "Continente donde se ubica la oficina",
+            allowableValues = {"Europa", "South America"},
+            $comment = "Solamente válidos porque no hay oficinas en otros continentes"
+    )
     private String continent;
 
     @Schema(description = "Código de la oficina regional a la que está asignada")
