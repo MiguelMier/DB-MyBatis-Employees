@@ -1,0 +1,15 @@
+Partiendo del código entregado (un esqueleto mínimo), deben hacer un pequeño api con estos 5 endpoints:
+ - GET /company/salary/{year}/avg
+ - GET /employee/{employeeCode}/salary/{year}
+ - POST /employee/{employeeCode}/salary/{year}
+ - GET /employee?name=asdads&codEmployee=121&page=1
+ - PUT  /employee/{employeeCode}/salary/{year}/month/{month}
+ 
+Donde:
+ - GET /company/salary/{year}/avg - Recupera el salario medio anual de la empresa del año especificado.
+ - GET /employee/{employeeCode}/salary/{year} - Recupera un lista (12 valores) con el salario mensual del empleado indicado
+ - POST /employee/{employeeCode}/salary/{year} - Crea, si no existe, la lista de salario de los 12 meses para un empleado un año concreto
+ - GET /employee?name=asdads&codEmployee=121&page=1 - Realiza una búsqueda paginada de empleados
+ - PUT  /employee/{employeeCode}/salary/{year}/month/{month} - Actualiza el salario mensual de un empleado un mes concreto
+ 
+Se deben leer y actualizar los datos en la base de datos de mariadb adjunta utilizando MyBatis
