@@ -3,6 +3,7 @@ package com.helloworld.salaries.company.salary.services.impl;
 import com.helloworld.salaries.company.salary.services.EmployeeService;
 import com.helloworld.salaries.mappers.EmployeeMapper;
 import com.helloworld.salaries.model.Employee;
+import com.helloworld.salaries.model.Salary;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -27,12 +28,12 @@ public class EmployeeServiceImpl implements EmployeeService {
     }
 
     @Override
-    public int updateMonthlySalary(String employeeCode, int year, int month, double salary) {
-        return 0;
+    public List<Double> createSalaryList(String employeeCode, int year) {
+        return employeeMapper.createSalaryList(employeeCode,year);
     }
 
     @Override
-    public List<Double> createSalaryList(String employeeCode, int year) {
-        return employeeMapper.createSalaryList(employeeCode,year);
+    public int updateSalaryFromEmployee(double salary, String employeeCode, int year, int month) {
+         return employeeMapper.updateSalaryFromEmployee(salary,employeeCode,year,month);
     }
 }

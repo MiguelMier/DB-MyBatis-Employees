@@ -1,10 +1,8 @@
 package com.helloworld.salaries.mappers;
 
 import com.helloworld.salaries.model.Employee;
-import org.apache.ibatis.annotations.Insert;
-import org.apache.ibatis.annotations.Mapper;
-import org.apache.ibatis.annotations.Param;
-import org.apache.ibatis.annotations.Select;
+import com.helloworld.salaries.model.Salary;
+import org.apache.ibatis.annotations.*;
 
 import java.util.List;
 
@@ -19,4 +17,7 @@ public interface EmployeeMapper {
 
     @Insert("Insert ")
     List<Double> createSalaryList(String employeeCode, int year);
+
+    @Update("UPDATE salary SET SALARY  = #{salary} WHERE CODEMPLEADO  = #{codempleado} AND SALARYYEAR  = #{year} AND SALARYMONTH  = #{month};")
+    int updateSalaryFromEmployee(@Param("salary")double salary, @Param("codempleado")String codempleado, @Param("year")int year, @Param("month")int month);
 }

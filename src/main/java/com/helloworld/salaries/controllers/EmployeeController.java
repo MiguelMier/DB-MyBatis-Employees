@@ -125,13 +125,18 @@ public class EmployeeController {
             @PathVariable @Parameter(description = "Año", in = ParameterIn.PATH) int year,
             @PathVariable @Parameter(description = "Mes", in = ParameterIn.PATH) int month,
             @RequestParam @Parameter(description = "Nuevo salario", required = true) double salary) {
+        int rowsAffected = 0;
+        if(salary>1) {
+            rowsAffected = employeeService.updateSalaryFromEmployee(salary, employeeCode, year, month);
+        }
 
-        int rowsAffected = employeeService.updateMonthlySalary(employeeCode, year, month, salary);
         if (rowsAffected > 0) {
             return ResponseEntity.ok().build();
         } else {
             return ResponseEntity.badRequest().build();
         }
     }
+
+
 
 }
